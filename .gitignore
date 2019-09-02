@@ -16,3 +16,6 @@
 
 # IDE folder
 .idea/
+
+# Goreleaser
+dist/
