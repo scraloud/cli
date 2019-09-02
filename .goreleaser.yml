@@ -1,11 +1,6 @@
-# This is an example goreleaser.yaml file with some sane defaults.
-# Make sure to check the documentation at http://goreleaser.com
 before:
   hooks:
-    # you may remove this if you don't use vgo
     - go mod tidy
-    # you may remove this if you don't need go generate
-    - go generate ./...
 builds:
 - env:
   - CGO_ENABLED=0
@@ -26,3 +21,23 @@ changelog:
     exclude:
     - '^docs:'
     - '^test:'
+brews:
+  -
+    name: scraloud
+    github:
+      owner: scraloud
+      name: homebrew-brew
+    commit_author:
+      name: musabgultekin
+      email: musabgultekin@users.noreply.github.com
+    folder: Formula
+    caveats: "Just use scraloud"
+    homepage: "https://scraloud.com/"
+    description: "Deploy your scrapers to cloud and manage them easily."
+    skip_upload: true
+    dependencies:
+      - git
+    test: |
+      system "#{bin}/scraloud --version"
+    install: |
+      bin.install "scraloud"
