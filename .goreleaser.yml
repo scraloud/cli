@@ -34,7 +34,6 @@ brews:
     caveats: "Just use scraloud"
     homepage: "https://scraloud.com/"
     description: "Deploy your scrapers to cloud and manage them easily."
-    skip_upload: true
     dependencies:
       - git
     test: |
