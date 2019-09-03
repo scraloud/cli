@@ -7,6 +7,7 @@ import (
 	"github.com/jdxcode/netrc"
 	"github.com/spf13/cobra"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -45,28 +46,30 @@ var loginCmd = &cobra.Command{
 			"cli":      {"true"},
 		})
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			log.Fatal(err)
 		}
 		defer resp.Body.Close()
 
 		// Read Body
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			log.Fatal(err)
 		}
 
+		// Check Status
+		if resp.StatusCode != http.StatusOK {
+			log.Fatal(string(body))
+		}
+
+		// Extract Token
 		token := struct {
 			Token string
 		}{}
 		if err := json.Unmarshal(body, &token); err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+			log.Fatal(string(body), err)
 		}
 		if token.Token == "" {
-			fmt.Println(string(body))
-			os.Exit(1)
+			log.Fatal(string(body))
 		}
 
 		SaveLogin(email, token.Token)
