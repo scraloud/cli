@@ -26,7 +26,7 @@ brews:
     name: scraloud
     github:
       owner: scraloud
-      name: homebrew-brew
+      name: homebrew-tap
     commit_author:
       name: musabgultekin
       email: musabgultekin@users.noreply.github.com
