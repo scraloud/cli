@@ -17,7 +17,7 @@ var startCmd = &cobra.Command{
 	Short: "Start scraper",
 	Long:  "Start existing scraper",
 	Run: func(cmd *cobra.Command, args []string) {
-		token := GetTokenOrFail()
+		token := CheckLogin(cmd, args)
 
 		fmt.Println("Starting Scraper...")
 
@@ -33,7 +33,7 @@ var startCmd = &cobra.Command{
 		}
 
 		if resp.StatusCode != http.StatusOK {
-			log.Fatal("Failed: ", string(body))
+			log.Fatal("Failed: ", resp.StatusCode, string(body))
 		}
 
 		logsCmd.Run(cmd, args)

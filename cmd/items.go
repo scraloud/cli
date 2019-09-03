@@ -25,7 +25,7 @@ var itemsCmd = &cobra.Command{
 	Short: "Print items",
 	Long:  "Print recent items collected",
 	Run: func(cmd *cobra.Command, args []string) {
-		token := GetTokenOrFail()
+		token := CheckLogin(cmd, args)
 
 		resp, err := http.Get(apiURL + "/scrapers/items/?token=" + token)
 		if err != nil {

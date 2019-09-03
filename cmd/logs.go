@@ -21,7 +21,7 @@ var logsCmd = &cobra.Command{
 	Short: "Print logs",
 	Long:  "Print recent logs",
 	Run: func(cmd *cobra.Command, args []string) {
-		token := GetTokenOrFail()
+		token := CheckLogin(cmd, args)
 
 		var old []byte
 		for {

@@ -78,23 +78,18 @@ var loginCmd = &cobra.Command{
 	},
 }
 
-func GetTokenOrFail() string {
+func CheckLogin(cmd *cobra.Command, args []string) string {
 	n, _ := ReadNetrc()
 
 	parsedApiURL, _ := url.Parse(apiURL)
 
 	if n.Machine(parsedApiURL.Host) == nil {
-		fmt.Println("Please Login")
-		os.Exit(1)
+		fmt.Println("Please Login First")
+		loginCmd.Run(cmd, args)
+		return CheckLogin(cmd, args)
 	}
 
-	token := n.Machine(parsedApiURL.Host).Get("password")
-	if token == "" {
-		fmt.Println("Please Login")
-		os.Exit(1)
-	}
-
-	return token
+	return n.Machine(parsedApiURL.Host).Get("password")
 }
 
 func SaveLogin(email string, password string) {

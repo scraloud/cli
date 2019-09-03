@@ -16,6 +16,7 @@ var apiURL = "https://api.scraloud.com/v1"
 var gitURL = "https://git.scraloud.com/"
 
 func init() {
+
 	// Set Base URLs
 	if envURL := os.Getenv("SCRALOUD_API_URL"); envURL != "" {
 		apiURL = envURL

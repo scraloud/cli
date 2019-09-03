@@ -5,6 +5,7 @@ import (
 	"github.com/spf13/cobra"
 	"log"
 	"os/exec"
+	"strings"
 	"time"
 )
 
@@ -17,14 +18,27 @@ var deployCmd = &cobra.Command{
 	Short: "Deploy current scraper",
 	Long:  "Deploys current scraper to server and follows logs",
 	Run: func(cmd *cobra.Command, args []string) {
-		_ = GetTokenOrFail()
+		_ = CheckLogin(cmd, args)
+
+		if out, err := exec.Command("git", "status").CombinedOutput(); err != nil {
+			if strings.Contains(string(out), "not a git repository") {
+				fmt.Println("Scraper not found, creating...")
+				createCmd.Run(cmd, args)
+			}
+		}
 
 		if out, err := exec.Command("git", "add", ".").CombinedOutput(); err != nil {
 			log.Fatal(string(out), err)
 		}
 
 		if out, err := exec.Command("git", "commit", "-m", fmt.Sprintf(`"%s"`, time.Now().String())).CombinedOutput(); err != nil {
-			log.Fatal(string(out), err)
+			if strings.Contains(string(out), "nothing to commit") {
+				fmt.Println("Nothing changed, just starting scraper..")
+				startCmd.Run(cmd, args)
+				return
+			} else {
+				log.Fatal(string(out), err)
+			}
 		}
 
 		fmt.Println("Pushing Code...")

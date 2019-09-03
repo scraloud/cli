@@ -19,7 +19,7 @@ var createCmd = &cobra.Command{
 	Short: "Creates a new project for scraloud and adds git remote.",
 	Long:  `Create a new project and add git remote for deployment.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		token := GetTokenOrFail()
+		token := CheckLogin(cmd, args)
 
 		resp, err := http.PostForm(apiURL+"/scrapers/?token="+token, nil)
 		if err != nil {
@@ -55,6 +55,6 @@ var createCmd = &cobra.Command{
 		//	log.Fatal(string(out), err)
 		//}
 
-		fmt.Println("Project Created: ", name.Name)
+		fmt.Println("Scraper Created: ", name.Name)
 	},
 }

@@ -17,7 +17,7 @@ var stopCmd = &cobra.Command{
 	Short: "Stop current scraper",
 	Long:  "Stop current running scraper",
 	Run: func(cmd *cobra.Command, args []string) {
-		token := GetTokenOrFail()
+		token := CheckLogin(cmd, args)
 
 		fmt.Println("Stopping Scraper...")
 
