@@ -37,6 +37,6 @@ brews:
     dependencies:
       - git
     test: |
-      system "#{bin}/scraloud --version"
+      system "#{bin}/scraloud"
     install: |
       bin.install "scraloud"
