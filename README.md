@@ -10,6 +10,8 @@ The Scraloud CLI is used to manage Scraloud scrapers from the command line.
 
 ```scraloud deploy``` Deploy scraper and follow logs
 
+```scraloud stop``` Start scraper
+
 ```scraloud stop``` Stop running scraper
 
 ```scraloud logs``` Print logs in real-time
