@@ -21,7 +21,7 @@ var stopCmd = &cobra.Command{
 
 		fmt.Println("Stopping Scraper...")
 
-		resp, err := http.PostForm(baseURL+"/scrapers/commands/stops/?token="+token, nil)
+		resp, err := http.PostForm(apiURL+"/scrapers/commands/stops/?token="+token, nil)
 		if err != nil {
 			log.Fatal(err)
 		}

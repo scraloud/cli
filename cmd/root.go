@@ -3,7 +3,6 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"net/url"
 	"os"
 )
 
@@ -13,16 +12,17 @@ var rootCmd = &cobra.Command{
 	Long:  `Scraloud deploys your scraping projects to cloud, manages requests, exported items and provides metrics`,
 }
 
-var baseURL = "http://api.scraloud.loc/v1"
-var baseURLHost string
+var apiURL = "https://api.scraloud.com/v1"
+var gitURL = "https://git.scraloud.com/"
 
 func init() {
-	// Set Base URL
-	if envURL := os.Getenv("SCRALOUD_BASE_URL"); envURL != "" {
-		baseURL = envURL
+	// Set Base URLs
+	if envURL := os.Getenv("SCRALOUD_API_URL"); envURL != "" {
+		apiURL = envURL
 	}
-	parsedBaseURL, _ := url.Parse(baseURL)
-	baseURLHost = parsedBaseURL.Host
+	if envURL := os.Getenv("SCRALOUD_GIT_URL"); envURL != "" {
+		gitURL = envURL
+	}
 }
 
 func Execute() {

@@ -26,7 +26,7 @@ var logsCmd = &cobra.Command{
 		var old []byte
 		for {
 			time.Sleep(time.Second)
-			resp, err := http.Get(baseURL + "/scrapers/logs/?token=" + token)
+			resp, err := http.Get(apiURL + "/scrapers/logs/?token=" + token)
 			if err != nil {
 				log.Fatal(err)
 			}

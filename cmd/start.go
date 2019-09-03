@@ -21,7 +21,7 @@ var startCmd = &cobra.Command{
 
 		fmt.Println("Starting Scraper...")
 
-		resp, err := http.PostForm(baseURL+"/scrapers/commands/starts/?token="+token, nil)
+		resp, err := http.PostForm(apiURL+"/scrapers/commands/starts/?token="+token, nil)
 		if err != nil {
 			log.Fatal(err)
 		}

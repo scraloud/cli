@@ -27,7 +27,7 @@ var itemsCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		token := GetTokenOrFail()
 
-		resp, err := http.Get(baseURL + "/scrapers/items/?token=" + token)
+		resp, err := http.Get(apiURL + "/scrapers/items/?token=" + token)
 		if err != nil {
 			log.Fatal(err)
 		}

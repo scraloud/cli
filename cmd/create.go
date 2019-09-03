@@ -21,7 +21,7 @@ var createCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		token := GetTokenOrFail()
 
-		resp, err := http.PostForm(baseURL+"/scrapers/?token="+token, nil)
+		resp, err := http.PostForm(apiURL+"/scrapers/?token="+token, nil)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -47,7 +47,7 @@ var createCmd = &cobra.Command{
 			log.Fatal(string(output))
 		}
 
-		if out, err := exec.Command("git", "remote", "add", "scraloud", "http://git.scraloud.loc/"+name.Name+".git").CombinedOutput(); err != nil {
+		if out, err := exec.Command("git", "remote", "add", "scraloud", gitURL+name.Name+".git").CombinedOutput(); err != nil {
 			log.Fatal(string(out), err)
 		}
 

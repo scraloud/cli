@@ -39,7 +39,7 @@ var loginCmd = &cobra.Command{
 		fmt.Println("Logging in...")
 
 		// Login
-		resp, err := http.PostForm(baseURL+"/users/login/", url.Values{
+		resp, err := http.PostForm(apiURL+"/users/login/", url.Values{
 			"email":    {email},
 			"password": {password},
 			"cli":      {"true"},
@@ -78,12 +78,14 @@ var loginCmd = &cobra.Command{
 func GetTokenOrFail() string {
 	n, _ := ReadNetrc()
 
-	if n.Machine(baseURLHost) == nil {
+	parsedApiURL, _ := url.Parse(apiURL)
+
+	if n.Machine(parsedApiURL.Host) == nil {
 		fmt.Println("Please Login")
 		os.Exit(1)
 	}
 
-	token := n.Machine(baseURLHost).Get("password")
+	token := n.Machine(parsedApiURL.Host).Get("password")
 	if token == "" {
 		fmt.Println("Please Login")
 		os.Exit(1)
@@ -95,7 +97,9 @@ func GetTokenOrFail() string {
 func SaveLogin(email string, password string) {
 	n, _ := ReadNetrc()
 
-	n.AddMachine(baseURLHost, email, password)
+	parsedApiURL, _ := url.Parse(apiURL)
+
+	n.AddMachine(parsedApiURL.Host, email, password)
 
 	// Save .netrc file
 	if err := n.Save(); err != nil {
