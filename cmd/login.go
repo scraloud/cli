@@ -72,7 +72,9 @@ var loginCmd = &cobra.Command{
 			log.Fatal(string(body))
 		}
 
-		SaveLogin(email, token.Token)
+		if err := SaveLogin(email, token.Token); err != nil {
+			log.Fatal(err)
+		}
 
 		fmt.Println("Login Successful")
 	},
@@ -92,18 +94,27 @@ func CheckLogin(cmd *cobra.Command, args []string) string {
 	return n.Machine(parsedApiURL.Host).Get("password")
 }
 
-func SaveLogin(email string, password string) {
+func SaveLogin(email string, password string) error {
 	n, _ := ReadNetrc()
 
-	parsedApiURL, _ := url.Parse(apiURL)
+	parsedApiURL, err := url.Parse(apiURL)
+	if err != nil {
+		return err
+	}
+	parsedGitURL, err := url.Parse(gitURL)
+	if err != nil {
+		return err
+	}
 
 	n.AddMachine(parsedApiURL.Host, email, password)
+	n.AddMachine(parsedGitURL.Host, email, password)
 
 	// Save .netrc file
 	if err := n.Save(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		return err
 	}
+
+	return nil
 }
 
 func ReadNetrc() (*netrc.Netrc, error) {

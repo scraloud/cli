@@ -15,11 +15,7 @@ var rootCmd = &cobra.Command{
 var apiURL = "https://api.scraloud.com/v1"
 var gitURL = "https://git.scraloud.com/"
 
-var isDebug bool
-
 func init() {
-	rootCmd.PersistentFlags().BoolVarP(&isDebug, "debug", "d", false, "")
-
 	// Set Base URLs
 	if envURL := os.Getenv("SCRALOUD_API_URL"); envURL != "" {
 		apiURL = envURL
@@ -30,12 +26,6 @@ func init() {
 }
 
 func Execute() {
-	// Check if debug
-	if isDebug {
-		apiURL = "http://api.scraloud.loc/v1"
-		gitURL = "http://git.scraloud.loc/"
-	}
-
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
